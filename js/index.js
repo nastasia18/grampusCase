@@ -63,3 +63,61 @@ function pageScroll() {
 	});
 }
 pageScroll();
+
+// Модалка
+function modalOpen() {
+	let items = document.querySelectorAll('[data-modal]');
+	if(!items.length)
+		return;
+
+	items.forEach(element => {
+		element.addEventListener("click", function() {
+			renderModal(element);
+		})
+	});
+}
+modalOpen()
+
+function renderModal(element) {
+	let modal = document.querySelector('.modal');
+	if(!modal)
+		return;
+
+	let modalImage = modal.querySelector('[data-modal-image]')
+	let modalTitle = modal.querySelector('[data-modal-title]')
+
+	let elementTitle = element.querySelector('.service-list__item-title');
+	let elementImage = element.querySelector('.service-list__item-image img');
+
+	modalImage.src = elementImage.src;
+	modalTitle.textContent = elementTitle.textContent;
+
+	modal.classList.add('modal-open');
+
+	document.querySelector('body').style.overflow = 'hidden';
+
+
+	let closeBtn = modal.querySelector(".close-modal");  
+
+    if(closeBtn) {
+        closeBtn.addEventListener("click", function() {
+            closeModal();
+        })
+    }
+  
+	document.addEventListener('keydown', function(event) {
+		if (event.code == 'Escape') {
+			closeModal();
+		}
+	});
+}
+
+function closeModal() {
+	let modalOpen = document.querySelector('.modal-open');
+    if(modalOpen) {
+        if(modalOpen.classList.contains('modal-open')) {
+            modalOpen.classList.remove('modal-open');
+        }
+    }
+	document.querySelector('body').style.overflow = 'auto';	
+}
